@@ -390,6 +390,11 @@
             if(tab === 'forum') renderForum();
             if(tab === 'history') renderHistoryList();
             if(tab === 'bank') renderBank();
+            function switchTab(tab) {
+    // ... ukrywanie innych paneli ...
+    if(tab === 'forum') renderForum(); // Musisz mieć tę funkcję w kodzie!
+    if(tab === 'bank') renderBank();   // I tę również!
+}
         }
 
         // --- LOGIKA BANKU ZADAŃ ---
