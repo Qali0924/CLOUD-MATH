@@ -100,24 +100,6 @@
 }
         /* --- MOBILNE POPRAWKI --- */
 #mobile-nav { display: none; } /* Ukryte na komputerze */
-        /* Styl dla podpowiedzi w edytorze */
-.version-hint {
-    font-size: 10px;
-    background: #fef3c7;
-    color: #92400e;
-    padding: 8px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border: 1px dashed #f59e0b;
-}
-
-@media (max-width: 1024px) {
-    /* Powiększamy przyciski akcji, żeby łatwiej było w nie trafić palcem */
-    button[onclick="generateRandomVersions()"] {
-        padding: 18px !important;
-        font-size: 13px !important;
-    }
-}
 
 @media (max-width: 1024px) {
     /* Nagłówek: ukrywamy zbędne przyciski, by nie psuły układu */
@@ -718,24 +700,6 @@ function switchTabMob(mode) {
         const targetTab = (mode === 'edit') ? 'edit' : mode;
         switchTab(targetTab);
     }
-}
-        function generateRandomVersions() {
-    let text = document.getElementById('taskInput').value;
-    
-    // Szuka wzoru {min-max}, np. {1-10} lub {20-100}
-    const result = text.replace(/\{(\d+)-(\d+)\}/g, (match, min, max) => {
-        const minValue = parseInt(min);
-        const maxValue = parseInt(max);
-        return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
-    });
-
-    document.getElementById('taskInput').value = result;
-    
-    // Automatyczne odświeżenie podglądu po losowaniu
-    if(typeof parseTasks === "function") parseTasks();
-    
-    // Mały efekt wizualny (Toast/Alert), że wylosowano
-    alert("Wylosowano nowe dane dla arkusza!");
 }
     </script>
     <div id="mobile-nav" class="no-print">
