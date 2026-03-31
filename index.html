@@ -100,6 +100,24 @@
 }
         /* --- MOBILNE POPRAWKI --- */
 #mobile-nav { display: none; } /* Ukryte na komputerze */
+        /* Styl dla podpowiedzi w edytorze */
+.version-hint {
+    font-size: 10px;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px dashed #f59e0b;
+}
+
+@media (max-width: 1024px) {
+    /* Powiększamy przyciski akcji, żeby łatwiej było w nie trafić palcem */
+    button[onclick="generateRandomVersions()"] {
+        padding: 18px !important;
+        font-size: 13px !important;
+    }
+}
 
 @media (max-width: 1024px) {
     /* Nagłówek: ukrywamy zbędne przyciski, by nie psuły układu */
@@ -249,6 +267,12 @@
                     <div class="flex justify-between items-center px-1">
                         <label class="text-[10px] font-black uppercase opacity-30 tracking-widest">Treść zadań</label>
                         <span class="text-[9px] font-bold text-indigo-500">GENERATOR GOTOWY</span>
+                        <button onclick="generateRandomVersions()" class="w-full bg-amber-500 hover:bg-amber-600 text-white py-3 rounded-2xl font-black uppercase text-[11px] mb-2 transition-all">
+    <i class="fas fa-dice mr-2"></i> Losuj dane {min-max}
+</button>
+                        <div class="version-hint no-print">
+    <i class="fas fa-info-circle"></i> Wpisz <b>{1-10}</b>, aby wylosować liczbę od 1 do 10.
+</div>
                     </div>
                     <textarea id="taskInput" class="w-full h-[480px] bg-slate-900 text-indigo-200 rounded-2xl p-6 text-xs font-mono leading-relaxed border-none outline-none focus:ring-2 ring-indigo-500/20" placeholder="Zadanie 1. (0-1) ..."></textarea>
                     <button onclick="parseTasks()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg hover:bg-indigo-700 transition-all">
@@ -700,6 +724,24 @@ function switchTabMob(mode) {
         switchTab(targetTab);
     }
 }
+        function generateRandomVersions() {
+    let text = document.getElementById('taskInput').value;
+    
+    // Szuka wzoru {min-max}, np. {1-10} lub {20-100}
+    const result = text.replace(/\{(\d+)-(\d+)\}/g, (match, min, max) => {
+        const minValue = parseInt(min);
+        const maxValue = parseInt(max);
+        return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
+    });
+
+    document.getElementById('taskInput').value = result;
+    
+    // Automatyczne odświeżenie podglądu po losowaniu
+    if(typeof parseTasks === "function") parseTasks();
+    
+    // Mały efekt wizualny (Toast/Alert), że wylosowano
+    alert("Wylosowano nowe dane dla arkusza!");
+}
     </script>
     <div id="mobile-nav" class="no-print">
     <button onclick="switchTabMob('edit')" id="mob-edit" class="mob-btn active">
@@ -714,6 +756,9 @@ function switchTabMob(mode) {
     <button onclick="switchTabMob('forum')" id="mob-forum" class="mob-btn">
         <i class="fas fa-users"></i>Forum
     </button>
+        <button onclick="generateRandomVersions()" class="w-full bg-amber-500 hover:bg-amber-600 text-white py-3 rounded-2xl font-black uppercase text-[11px] mb-2 transition-all">
+    <i class="fas fa-dice mr-2"></i> Losuj dane {min-max}
+</button>
 </div>
 </body>
 </html>
