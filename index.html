@@ -98,6 +98,71 @@
         display: none !important; 
     } 
 }
+        /* --- MOBILNE POPRAWKI --- */
+#mobile-nav { display: none; } /* Ukryte na komputerze */
+
+@media (max-width: 1024px) {
+    /* Nagłówek: ukrywamy zbędne przyciski, by nie psuły układu */
+    header nav, .lg-only { display: none !important; }
+    header { height: 65px; padding: 0 15px; }
+
+    /* Układ główny: pionowy zamiast poziomego */
+    .flex-1.overflow-hidden { flex-direction: column; }
+    
+    aside { 
+        width: 100% !important; 
+        height: 100% !important; 
+        padding-bottom: 80px !important; /* Miejsce na menu dolne */
+        display: block;
+    }
+    
+    main { 
+        display: none; /* Domyślnie ukrywamy podgląd, by nie mulił telefonu */
+        width: 100% !important;
+        padding: 10px !important;
+    }
+
+    /* Skalowanie arkusza, by mieścił się na ekranie telefonu */
+    #printable-content {
+        width: 100% !important;
+        min-width: unset !important;
+        transform: scale(0.95);
+        transform-origin: top center;
+    }
+    .pdf-page { width: 100% !important; padding: 15mm 5mm !important; }
+
+    /* Tryb widoku - aktywowany skryptem */
+    body.view-mode main { display: flex !important; }
+    body.view-mode aside { display: none !important; }
+
+    /* Dolny pasek nawigacji */
+    #mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: var(--bg-sidebar);
+        border-top: 1px solid var(--border-ui);
+        height: 70px;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1000;
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .mob-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 10px;
+        font-weight: 800;
+        color: var(--text-muted);
+        text-transform: uppercase;
+    }
+    .mob-btn i { font-size: 20px; margin-bottom: 4px; }
+    .mob-btn.active { color: var(--primary); }
+}
     </style>
 </head>
 <body id="app-body">
@@ -614,6 +679,36 @@ async function generatePDF() {
         // Start
         toggleTheme(localStorage.getItem('cm_dark') === 'true');
         renderPreview();
+        function switchTabMob(mode) {
+    // 1. Zaktualizuj wygląd przycisków
+    document.querySelectorAll('.mob-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`mob-${mode}`).classList.add('active');
+    
+    // 2. Obsłuż widoczność Podglądu vs Reszty
+    if(mode === 'view') {
+        document.body.classList.add('view-mode');
+        // Wywołaj renderowanie, jeśli masz taką funkcję, by odświeżyć arkusz
+        if(typeof renderPreview === "function") renderPreview(); 
+    } else {
+        document.body.classList.remove('view-mode');
+        // Wywołaj Twoją oryginalną funkcję switchTab, by przełączyć zawartość aside
+        if(typeof switchTab === "function") switchTab(mode);
+    }
+}
     </script>
+    <div id="mobile-nav" class="no-print">
+    <button onclick="switchTabMob('edit')" id="mob-edit" class="mob-btn active">
+        <i class="fas fa-edit"></i>Edytuj
+    </button>
+    <button onclick="switchTabMob('view')" id="mob-view" class="mob-btn">
+        <i class="fas fa-eye"></i>Podgląd
+    </button>
+    <button onclick="switchTabMob('bank')" id="mob-bank" class="mob-btn">
+        <i class="fas fa-database"></i>Bank
+    </button>
+    <button onclick="switchTabMob('forum')" id="mob-forum" class="mob-btn">
+        <i class="fas fa-users"></i>Forum
+    </button>
+</div>
 </body>
 </html>
