@@ -201,14 +201,12 @@
         <div class="flex items-center gap-8 w-full h-full">
             <div class="flex items-center gap-4">
                 <div class="bg-indigo-600 p-2.5 rounded-xl text-white shadow-lg"><i class="fas fa-square-root-variable"></i></div>
-                <div>
-                    <h1 class="brand-font font-bold text-2xl leading-none uppercase tracking-tighter">CLOUD MATH</h1>
-                </div>
+                <h1 class="brand-font font-bold text-2xl leading-none uppercase tracking-tighter">CLOUD MATH</h1>
             </div>
 
             <nav class="flex gap-2 ml-10 h-full">
                 <button onclick="switchTab('edit')" id="btn-edit" class="nav-btn active">Kreator</button>
-                <button onclick="switchTab('bank')" id="btn-bank" class="nav-btn"></i> Bank Zadań</button>
+                <button onclick="switchTab('bank')" id="btn-bank" class="nav-btn">Bank Zadań</button>
                 <button onclick="switchTab('forum')" id="btn-forum" class="nav-btn"><i class="fas fa-comments mr-2"></i> Forum</button>
                 <button onclick="switchTab('history')" id="btn-history" class="nav-btn">Moje Pliki</button>
                 
@@ -237,88 +235,28 @@
     </header>
 
     <div class="flex flex-1 overflow-hidden">
-<aside class="w-[460px] flex flex-col p-8 overflow-y-auto shrink-0">
-    
-    <div id="pane-edit" class="space-y-6">
-        <div class="space-y-2">
-            <label class="text-[10px] font-black uppercase opacity-30 ml-1 tracking-widest">Tytuł Arkusza</label>
-            <input type="text" id="titleInput" oninput="renderPreview()" placeholder="np. Sprawdzian z Wielomianów" class="w-full p-4 rounded-2xl outline-none font-bold text-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm focus:border-indigo-500 transition-all">
-        </div>
+        <aside class="w-[460px] flex flex-col p-8 overflow-y-auto shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+            
+            <div id="pane-edit" class="space-y-6">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black uppercase opacity-30 ml-1 tracking-widest">Tytuł Arkusza</label>
+                    <input type="text" id="titleInput" oninput="renderPreview()" placeholder="np. Sprawdzian z Wielomianów" class="w-full p-4 rounded-2xl outline-none font-bold text-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm focus:border-indigo-500 transition-all">
+                </div>
 
-        <div id="view-paste" class="space-y-4">
-            <div class="flex justify-between items-center mb-2">
-                <label class="text-[10px] font-black uppercase opacity-30 tracking-widest">Treść zadań</label>
-                <span class="text-[9px] font-bold text-indigo-500 uppercase">Generator Gotowy</span>
-            </div>
-            <textarea id="taskInput" class="w-full h-[450px] bg-slate-900 text-indigo-200 rounded-2xl p-6 text-xs font-mono border-none outline-none shadow-inner" placeholder="Zadanie 1. (0-1) Treść...&#10;Odpowiedź: wynik"></textarea>
-            <button onclick="parseTasks()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg transition-all active:scale-95">
-                Generuj Strukturę Arkusza
-            </button>
-        </div>
-
-        <div id="view-drag" class="hidden">
-            <div class="bg-indigo-50 p-4 rounded-2xl mb-4 border border-indigo-100">
-                <p class="text-[10px] font-black text-indigo-600 uppercase text-center tracking-tighter">Przeciągnij zadania, aby zmienić kolejność</p>
-            </div>
-            <div id="sortable-list" class="space-y-3 mb-6"></div>
-            <button onclick="backToPaste()" class="w-full py-3 text-[10px] font-black opacity-40 hover:opacity-100 uppercase transition-all">
-                <i class="fas fa-edit mr-2"></i> Powrót do edycji tekstu
-            </button>
-        </div>
-    </div>
-
-    <div id="pane-bank" class="hidden space-y-6">
-        <h3 class="font-black text-2xl uppercase tracking-tighter">Bank Zadań</h3>
-        <div id="bank-list" class="space-y-4"></div>
-    </div>
-
-    <div id="pane-forum" class="hidden space-y-6">
-        <div class="flex justify-between items-end">
-            <h3 class="font-black text-2xl uppercase tracking-tighter">Forum Społeczności</h3>
-            <span id="forum-count" class="bg-indigo-600 text-white text-[10px] px-3 py-1 rounded-full font-black">0</span>
-        </div>
-        <div id="forum-list" class="space-y-4"></div>
-    </div>
-
-    <div id="pane-history" class="hidden space-y-6">
-        <h3 class="font-black text-2xl uppercase tracking-tighter">Twoja Biblioteka</h3>
-        <div id="history-list" class="space-y-4"></div>
-    </div>
-
-    <div id="pane-cke" class="hidden space-y-6">
-        <div id="cke-status" class="p-6 rounded-3xl text-white shadow-xl bg-indigo-600">
-            <h3 id="cke-title" class="font-black text-xl uppercase brand-font">Arkusze</h3>
-            <p class="text-[10px] font-bold uppercase opacity-80 mt-1">OFICJALNA BAZA CKE</p>
-        </div>
-        <div id="cke-list" class="space-y-4 mt-4"></div>
-    </div>
-
-    <div id="pane-settings" class="hidden space-y-4">
-        <h3 class="font-black text-2xl uppercase tracking-tighter mb-4">Ustawienia</h3>
-        <button onclick="toggleTheme(true)" class="w-full p-5 rounded-2xl bg-slate-900 text-white font-black text-[11px] uppercase flex justify-between items-center">Tryb Ciemny <i class="fas fa-moon"></i></button>
-        <button onclick="toggleTheme(false)" class="w-full p-5 rounded-2xl bg-white border border-slate-200 text-slate-900 font-black text-[11px] uppercase flex justify-between items-center">Tryb Jasny <i class="fas fa-sun"></i></button>
-    </div>
-
-</aside>
-
-    <textarea id="taskInput" 
-              class="w-full h-[450px] bg-slate-900 text-indigo-200 rounded-2xl p-6 text-xs font-mono border-none outline-none shadow-inner" 
-              placeholder="Zadanie 1. (0-1) Treść...&#10;Odpowiedź: wynik"></textarea>
-    
-    <button onclick="parseTasks()" 
-            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg transition-all active:scale-95">
-        Generuj Strukturę Arkusza
-    </button>
-</div>
                 <div id="view-paste" class="space-y-4">
-                    <div class="flex justify-between items-center px-1">
+                    <div class="flex justify-between items-center mb-2">
                         <label class="text-[10px] font-black uppercase opacity-30 tracking-widest">Treść zadań</label>
-                        <span class="text-[9px] font-bold text-indigo-500">GENERATOR GOTOWY</span>
+                        <span class="text-[9px] font-bold text-indigo-500 uppercase">Generator Gotowy</span>
+                    </div>
+                    <textarea id="taskInput" class="w-full h-[450px] bg-slate-900 text-indigo-200 rounded-2xl p-6 text-xs font-mono border-none outline-none shadow-inner" placeholder="Zadanie 1. (0-1) Treść...&#10;Odpowiedź: wynik"></textarea>
+                    <button onclick="parseTasks()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg transition-all active:scale-95">
+                        Generuj Strukturę Arkusza
+                    </button>
                 </div>
 
                 <div id="view-drag" class="hidden">
-                    <div class="bg-indigo-50 p-4 rounded-2xl mb-4 border border-indigo-100">
-                        <p class="text-[10px] font-black text-indigo-600 uppercase text-center tracking-tighter">Przeciągnij zadania, aby zmienić kolejność</p>
+                    <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-2xl mb-4 border border-indigo-100 dark:border-indigo-900/30">
+                        <p class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase text-center tracking-tighter">Przeciągnij zadania, aby zmienić kolejność</p>
                     </div>
                     <div id="sortable-list" class="space-y-3 mb-6"></div>
                     <button onclick="backToPaste()" class="w-full py-3 text-[10px] font-black opacity-40 hover:opacity-100 uppercase transition-all">
@@ -346,11 +284,11 @@
             </div>
 
             <div id="pane-cke" class="hidden space-y-6">
-                <div id="cke-status" class="p-6 rounded-3xl text-white shadow-xl">
+                <div id="cke-status" class="p-6 rounded-3xl text-white shadow-xl bg-indigo-600">
                     <h3 id="cke-title" class="font-black text-xl uppercase brand-font">Arkusze</h3>
                     <p class="text-[10px] font-bold uppercase opacity-80 mt-1">OFICJALNA BAZA CKE</p>
                 </div>
-                <div id="cke-list" class="space-y-6"></div>
+                <div id="cke-list" class="space-y-4 mt-4"></div>
             </div>
 
             <div id="pane-settings" class="hidden space-y-4">
@@ -374,14 +312,15 @@
                             <div id="pdf-total" class="bg-black text-white px-6 py-2.5 rounded font-black text-[11px] uppercase">SUMA: 0 PKT</div>
                         </div>
                     </div>
-                    <div id="tasks-output">
-                        </div>
+                    <div id="tasks-output"></div>
                     <div class="mt-20 pt-10 border-t border-slate-100 text-center opacity-20 font-black text-[9px] uppercase tracking-widest">
+                        Wygenerowano w CLOUD MATH
                     </div>
                 </div>
             </div>
         </main>
     </div>
+</body>
 
     <script>
         // --- BAZA DANYCH CKE ---
