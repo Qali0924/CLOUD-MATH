@@ -268,11 +268,6 @@
                         <label class="text-[10px] font-black uppercase opacity-30 tracking-widest">Treść zadań</label>
                         <span class="text-[9px] font-bold text-indigo-500">GENERATOR GOTOWY</span>
                         <button onclick="generateRandomVersions()" class="w-full bg-amber-500 hover:bg-amber-600 text-white py-3 rounded-2xl font-black uppercase text-[11px] mb-2 transition-all">
-    <i class="fas fa-dice mr-2"></i> Losuj dane {min-max}
-</button>
-                        <div class="version-hint no-print">
-    <i class="fas fa-info-circle"></i> Wpisz <b>{1-10}</b>, aby wylosować liczbę od 1 do 10.
-</div>
                     </div>
                     <textarea id="taskInput" class="w-full h-[480px] bg-slate-900 text-indigo-200 rounded-2xl p-6 text-xs font-mono leading-relaxed border-none outline-none focus:ring-2 ring-indigo-500/20" placeholder="Zadanie 1. (0-1) ..."></textarea>
                     <button onclick="parseTasks()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg hover:bg-indigo-700 transition-all">
@@ -755,10 +750,6 @@ function switchTabMob(mode) {
     </button>
     <button onclick="switchTabMob('forum')" id="mob-forum" class="mob-btn">
         <i class="fas fa-users"></i>Forum
-    </button>
-        <button onclick="generateRandomVersions()" class="w-full bg-amber-500 hover:bg-amber-600 text-white py-3 rounded-2xl font-black uppercase text-[11px] mb-2 transition-all">
-    <i class="fas fa-dice mr-2"></i> Losuj dane {min-max}
-</button>
 </div>
 </body>
 </html>
