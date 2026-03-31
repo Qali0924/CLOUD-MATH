@@ -1,0 +1,92 @@
+{
+  "metadata": {
+    "project": "CLOUD AI - SPOFY MATH",
+    "version": "1.1",
+    "last_update": "2026-03-29",
+    "author": "CLOUD AI"
+  },
+  "categories": [
+    "Wielomiany",
+    "Funkcja kwadratowa",
+    "Funkcje wymierne",
+    "Trygonometria",
+    "Planimetria",
+    "Funkcja wykładnicza i logarytmiczna",
+    "Geometria analityczna",
+    "Rachunek różniczkowy"
+  ],
+  "tasks": [
+    {
+      "id": "WIE-DB-01",
+      "category": "Wielomiany",
+      "level": "rozszerzenie",
+      "points": "0-1",
+      "content": "Dany jest wielomian $W(x) = x^3 - 4x^2 + mx + 6$. Wyznacz wartość parametru $m$, wiedząc, że liczba $x = 3$ jest pierwiastkiem tego wielomianu.",
+      "answer": "$W(3)=0 \\Rightarrow 27 - 36 + 3m + 6 = 0 \\Rightarrow 3m - 3 = 0 \\Rightarrow m = 1$",
+      "tags": ["pierwiastek wielomianu", "parametr"]
+    },
+    {
+      "id": "WIE-DB-02",
+      "category": "Wielomiany",
+      "level": "rozszerzenie",
+      "points": "0-2",
+      "content": "Rozwiąż równanie wielomianowe $x^3 - 7x + 6 = 0$, korzystając z twierdzenia o pierwiastkach wymiernych i schematu Hornera.",
+      "answer": "Pierwiastki: $x \\in \\{1, 2, -3\\}$",
+      "tags": ["schemat Hornera", "równanie"]
+    },
+    {
+      "id": "WIE-DB-03",
+      "category": "Wielomiany",
+      "level": "rozszerzenie",
+      "points": "0-1",
+      "content": "Sprawdź, czy wielomian $P(x) = x^4 - 5x^2 + 4$ jest podzielny przez dwumian $Q(x) = x - 2$. Uzasadnij odpowiedź, obliczając wartość $P(2)$.",
+      "answer": "$P(2) = 16 - 20 + 4 = 0$. Tak, jest podzielny.",
+      "tags": ["podzielność", "Twierdzenie Bezouta"]
+    },
+    {
+      "id": "WIE-DB-04",
+      "category": "Wielomiany",
+      "level": "rozszerzenie",
+      "points": "0-3",
+      "content": "Dany jest wielomian $W(x) = (x + 2)(x^2 + px + q)$. Wiedząc, że pierwiastkami tego wielomianu są liczby: $-2, -1, 3$, wyznacz wartości parametrów $p$ oraz $q$.",
+      "answer": "Postać iloczynowa: $(x+2)(x+1)(x-3)$. Po wymnożeniu: $p = -2, q = -3$.",
+      "tags": ["parametry", "pierwiastki"]
+    },
+    {
+      "id": "GEO-DB-01",
+      "category": "Geometria analityczna",
+      "level": "podstawa",
+      "points": "0-2",
+      "content": "Wyznacz równanie prostej przechodzącej przez punkty $A = (-2, 5)$ oraz $B = (4, -1)$. Przedstaw wynik w postaci kierunkowej $y = ax + b$ oraz ogólnej $Ax + By + C = 0$.",
+      "answer": "Kierunkowa: $y = -x + 3$. Ogólna: $x + y - 3 = 0$.",
+      "tags": ["równanie prostej", "punkty"]
+    },
+    {
+      "id": "GEO-DB-02",
+      "category": "Geometria analityczna",
+      "level": "rozszerzenie",
+      "points": "0-3",
+      "content": "Dany jest okrąg o równaniu $(x - 3)^2 + (y + 2)^2 = 25$. Oblicz współrzędne punktów przecięcia tego okręgu z osią $OY$ układu współrzędnych.",
+      "answer": "Dla $x=0$: $9 + (y+2)^2 = 25 \\Rightarrow (y+2)^2 = 16 \\Rightarrow y=2 \\lor y=-6$. Punkty: $(0, 2), (0, -6)$.",
+      "tags": ["okrąg", "punkty przecięcia"]
+    },
+    {
+      "id": "OPT-DB-01",
+      "category": "Rachunek różniczkowy",
+      "level": "rozszerzenie",
+      "points": "0-4",
+      "content": "Firma produkująca opakowania projektuje pudełko w kształcie prostopadłościanu o podstawie kwadratowej. Suma długości wszystkich krawędzi tego pudełka wynosi $96$ cm. Oblicz wymiary pudełka, dla których jego objętość $V$ będzie największa. Wykorzystaj pochodną funkcji $V(x) = x^2(24 - 2x)$.",
+      "answer": "$V'(x) = 48x - 6x^2$. Max dla $x = 8$. Wymiary: $8 \\times 8 \\times 8$ (sześcian).",
+      "tags": ["optymalizacja", "pochodna"]
+    },
+    {
+      "id": "FUN-DB-01",
+      "category": "Funkcje wymierne",
+      "level": "podstawa",
+      "points": "0-2",
+      "content": "Wyznacz dziedzinę funkcji wymiernej określonej wzorem $f(x) = \\frac{x^2 - 16}{x - 4}$.",
+      "answer": "$D = \\mathbb{R} \\setminus \\{4\\}$",
+      "tags": ["dziedzina", "funkcja wymierna"]
+    }
+  ]
+}

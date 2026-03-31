@@ -1,0 +1,22 @@
+{
+  "sheets": [
+    {
+      "id": 1,
+      "title": "Funkcje Kwadratowe - Zbiór",
+      "author": "CLOUD MATH",
+      "description": "Powtórka przed sprawdzianem, 10 zadań.",
+      "raw_content": "Zadanie 1. (0-1) Oblicz...\nZadanie 2. (0-2) Wyznacz...",
+      "tags": ["liceum", "matura"],
+      "downloads": 15
+    },
+    {
+      "id": 2,
+      "title": "Egzamin Ósmoklasisty 2026",
+      "author": "Egzaminator_PL",
+      "description": "Zestaw zadań zamkniętych i otwartych.",
+      "raw_content": "Zadanie 1. (0-1) Wartość wyrażenia...",
+      "tags": ["e8", "podstawówka"],
+      "downloads": 42
+    }
+  ]
+}
