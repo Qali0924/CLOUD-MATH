@@ -1,720 +1,137 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>CLOUD MATH | TWOJA BAZA ZADAŃ</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!DOCTYPE html><html lang="pl"> <head> <meta charset="UTF-8"/> <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <title>CLOUD MATH | TWOJA BAZA ZADAŃ</title> text<script src="https://cdn.tailwindcss.com"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"> <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script><style> :root { --bg-app: #f8fafc; --bg-sidebar: #ffffff; --bg-header: #ffffff; --text-main: #0f172a; --text-muted: #64748b; --border-ui: #e2e8f0; --input-bg: #f1f5f9; --primary: #4f46e5; } .dark-mode { --bg-app: #020617; --bg-sidebar: #0f172a; --bg-header: #0f172a; --text-main: #f1f5f9; --text-muted: #94a3b8; --border-ui: #1e293b; --input-bg: #1e293b; } body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-app); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; } header { background-color: var(--bg-header); border-bottom: 1px solid var(--border-ui); transition: 0.3s; } aside { background-color: var(--bg-sidebar); border-right: 1px solid var(--border-ui); transition: 0.3s; } /* Dropdown Arkusze CKE */ .dropdown { position: relative; display: inline-block; height: 100%; } .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background-color: var(--bg-header); min-width: 260px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); z-index: 100; border-radius: 12px; border: 1px solid var(--border-ui); padding: 8px; } .dropdown:hover .dropdown-content { display: block; } .dropdown-item { padding: 12px 16px; display: flex; align-items: center; color: var(--text-main); font-size: 11px; font-weight: 800; border-radius: 8px; transition: 0.2s; cursor: pointer; text-transform: uppercase; } .dropdown-item:hover { background-color: var(--primary); color: white; } /* Nawigacja */ .nav-btn { padding: 0 16px; font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); border-bottom: 3px solid transparent; transition: 0.2s; cursor: pointer; display: flex; align-items: center; height: 100%; } .nav-btn.active { color: var(--primary); border-bottom-color: var(--primary); } /* Karty na Forum i w Historii */ .forum-card, .history-card, .bank-card { background: var(--input-bg); border: 1px solid var(--border-ui); border-radius: 16px; padding: 16px; margin-bottom: 10px; transition: 0.2s; } .forum-card:hover, .bank-card:hover { border-color: var(--primary); transform: translateY(-2px); } /* MODAL PUBLIKACJI - ZAWSZE JASNY */ #publish-modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(10px); } .modal-content { background: #ffffff !important; color: #0f172a !important; padding: 35px; border-radius: 28px; width: 420px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6); } .modal-input { width: 100%; padding: 14px; border-radius: 14px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #0f172a; font-weight: 700; outline: none; margin-top: 4px; } .modal-input:focus { border-color: #4f46e5; background: #fff; } /* Podgląd PDF */ .brand-font { font-family: 'Space Grotesk', sans-serif; } #printable-content { background: #fff !important; width: 210mm; margin: 0 auto; color: #000 !important; } .pdf-page { width: 210mm; min-height: 297mm; padding: 20mm; background: #fff !important; } .task-box { margin-bottom: 40px; page-break-inside: avoid; position: relative; } .math-grid { border: 1px solid #cbd5e1; background-size: 20px 20px; background-image: linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px); } @media print { .no-print { display: none !important; } } /* --- MOBILNE POPRAWKI --- / #mobile-nav { display: none; } / Ukryte na komputerze / / Styl dla podpowiedzi w edytorze */ .version-hint { font-size: 10px; background: #fef3c7; color: #92400e; padding: 8px; border-radius: 8px; margin-bottom: 10px; border: 1px dashed #f59e0b; } @media (max-width: 1024px) { /* Nagłówek: ukrywamy zbędne przyciski, by nie psuły układu */ header nav, .lg-only { display: none !important; } header { height: 65px; padding: 0 15px; } text /* Układ główny: pionowy zamiast poziomego */ .flex-1.overflow-hidden { flex-direction: column; } aside { width: 100% !important; height: 100% !important; padding-bottom: 80px !important; /* Miejsce na menu dolne */ display: block; } main { display: none; /* Domyślnie ukrywamy podgląd, by nie mulił telefonu */ width: 100% !important; padding: 10px !important; } /* Skalowanie arkusza, by mieścił się na ekranie telefonu */ #printable-content { width: 100% !important; min-width: unset !important; transform: scale(0.95); transform-origin: top center; } .pdf-page { width: 100% !important; padding: 15mm 5mm !important; } /* Tryb widoku - aktywowany skryptem */ body.view-mode main { display: flex !important; } body.view-mode aside { display: none !important; } /* Dolny pasek nawigacji */ #mobile-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bg-sidebar); border-top: 1px solid var(--border-ui); height: 70px; justify-content: space-around; align-items: center; z-index: 1000; padding-bottom: env(safe-area-inset-bottom); } .mob-btn { display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; } .mob-btn i { font-size: 20px; margin-bottom: 4px; } .mob-btn.active { color: var(--primary); } } </style></head> <body id="app-body"> text<div id="publish-modal" class="no-print"> <div class="modal-content space-y-6"> <div class="flex items-center gap-4"> <div class="bg-indigo-600 p-3 rounded-2xl text-white shadow-lg shadow-indigo-200"> <i class="fas fa-paper-plane"></i> </div> <div> <h3 class="font-black text-2xl uppercase tracking-tighter">Publikuj na Forum</h3> <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Udostępnij swój arkusz innym</p> </div> </div>
+text
 
-    <style>
-        :root {
-            --bg-app: #f8fafc; --bg-sidebar: #ffffff; --bg-header: #ffffff;
-            --text-main: #0f172a; --text-muted: #64748b; --border-ui: #e2e8f0;
-            --input-bg: #f1f5f9; --primary: #4f46e5;
-        }
-        .dark-mode {
-            --bg-app: #020617; --bg-sidebar: #0f172a; --bg-header: #0f172a;
-            --text-main: #f1f5f9; --text-muted: #94a3b8; --border-ui: #1e293b;
-            --input-bg: #1e293b;
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-app); color: var(--text-main);
-            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
-        }
-        header { background-color: var(--bg-header); border-bottom: 1px solid var(--border-ui); transition: 0.3s; }
-        aside { background-color: var(--bg-sidebar); border-right: 1px solid var(--border-ui); transition: 0.3s; }
-        
-        /* Dropdown Arkusze CKE */
-        .dropdown { position: relative; display: inline-block; height: 100%; }
-        .dropdown-content {
-            display: none; position: absolute; top: 100%; left: 0;
-            background-color: var(--bg-header); min-width: 260px;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
-            z-index: 100; border-radius: 12px; border: 1px solid var(--border-ui); padding: 8px;
-        }
-        .dropdown:hover .dropdown-content { display: block; }
-        .dropdown-item {
-            padding: 12px 16px; display: flex; align-items: center;
-            color: var(--text-main); font-size: 11px; font-weight: 800;
-            border-radius: 8px; transition: 0.2s; cursor: pointer; text-transform: uppercase;
-        }
-        .dropdown-item:hover { background-color: var(--primary); color: white; }
-
-        /* Nawigacja */
-        .nav-btn {
-            padding: 0 16px; font-size: 11px; font-weight: 800; text-transform: uppercase;
-            color: var(--text-muted); border-bottom: 3px solid transparent; transition: 0.2s; cursor: pointer;
-            display: flex; align-items: center; height: 100%;
-        }
-        .nav-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
-        
-        /* Karty na Forum i w Historii */
-        .forum-card, .history-card, .bank-card { 
-            background: var(--input-bg); border: 1px solid var(--border-ui); 
-            border-radius: 16px; padding: 16px; margin-bottom: 10px; transition: 0.2s;
-        }
-        .forum-card:hover, .bank-card:hover { border-color: var(--primary); transform: translateY(-2px); }
-
-        /* MODAL PUBLIKACJI - ZAWSZE JASNY */
-        #publish-modal {
-            display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85);
-            z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(10px);
-        }
-        .modal-content {
-            background: #ffffff !important; color: #0f172a !important;
-            padding: 35px; border-radius: 28px; width: 420px; 
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6);
-        }
-        .modal-input {
-            width: 100%; padding: 14px; border-radius: 14px; 
-            background: #f1f5f9; border: 1px solid #e2e8f0;
-            color: #0f172a; font-weight: 700; outline: none; margin-top: 4px;
-        }
-        .modal-input:focus { border-color: #4f46e5; background: #fff; }
-
-        /* Podgląd PDF */
-        .brand-font { font-family: 'Space Grotesk', sans-serif; }
-        #printable-content { background: #fff !important; width: 210mm; margin: 0 auto; color: #000 !important; }
-        .pdf-page { width: 210mm; min-height: 297mm; padding: 20mm; background: #fff !important; }
-        
-        .task-box { margin-bottom: 40px; page-break-inside: avoid; position: relative; }
-        .math-grid { 
-            border: 1px solid #cbd5e1; 
-            background-size: 20px 20px; 
-            background-image: linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
-        }
-
-@media print { 
-    .no-print { 
-        display: none !important; 
-    } 
-}
-        /* --- MOBILNE POPRAWKI --- */
-#mobile-nav { display: none; } /* Ukryte na komputerze */
-
-@media (max-width: 1024px) {
-    /* Nagłówek: ukrywamy zbędne przyciski, by nie psuły układu */
-    header nav, .lg-only { display: none !important; }
-    header { height: 65px; padding: 0 15px; }
-
-    /* Układ główny: pionowy zamiast poziomego */
-    .flex-1.overflow-hidden { flex-direction: column; }
-    
-    aside { 
-        width: 100% !important; 
-        height: 100% !important; 
-        padding-bottom: 80px !important; /* Miejsce na menu dolne */
-        display: block;
-    }
-    
-    main { 
-        display: none; /* Domyślnie ukrywamy podgląd, by nie mulił telefonu */
-        width: 100% !important;
-        padding: 10px !important;
-    }
-
-    /* Skalowanie arkusza, by mieścił się na ekranie telefonu */
-    #printable-content {
-        width: 100% !important;
-        min-width: unset !important;
-        transform: scale(0.95);
-        transform-origin: top center;
-    }
-    .pdf-page { width: 100% !important; padding: 15mm 5mm !important; }
-
-    /* Tryb widoku - aktywowany skryptem */
-    body.view-mode main { display: flex !important; }
-    body.view-mode aside { display: none !important; }
-
-    /* Dolny pasek nawigacji */
-    #mobile-nav {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: var(--bg-sidebar);
-        border-top: 1px solid var(--border-ui);
-        height: 70px;
-        justify-content: space-around;
-        align-items: center;
-        z-index: 1000;
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-
-    .mob-btn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-size: 10px;
-        font-weight: 800;
-        color: var(--text-muted);
-        text-transform: uppercase;
-    }
-    .mob-btn i { font-size: 20px; margin-bottom: 4px; }
-    .mob-btn.active { color: var(--primary); }
-}
-    </style>
-</head>
-<body id="app-body">
-
-    <div id="publish-modal" class="no-print">
-        <div class="modal-content space-y-6">
-            <div class="flex items-center gap-4">
-                <div class="bg-indigo-600 p-3 rounded-2xl text-white shadow-lg shadow-indigo-200">
-                    <i class="fas fa-paper-plane"></i>
-                </div>
-                <div>
-                    <h3 class="font-black text-2xl uppercase tracking-tighter">Publikuj na Forum</h3>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Udostępnij swój arkusz innym</p>
-                </div>
-            </div>
-            
-            <div class="space-y-4">
-                <div>
-                    <label class="text-[10px] font-black uppercase text-slate-400 ml-1">Twoja Nazwa (Autor)</label>
-                    <input type="text" id="modal-author" class="modal-input" placeholder="np. CLOUD MATH">
-                </div>
-                <div>
-                    <label class="text-[10px] font-black uppercase text-slate-400 ml-1">Krótki opis zestawu</label>
-                    <input type="text" id="modal-desc" class="modal-input" placeholder="np. Wielomiany - poziom trudny">
-                </div>
-            </div>
-
-            <div class="flex gap-3 pt-2">
-                <button onclick="closeModal()" class="flex-1 py-4 font-black text-[11px] uppercase text-slate-400 hover:text-slate-600 transition-all">Anuluj</button>
-                <button onclick="confirmPublish()" class="flex-1 py-4 bg-indigo-600 text-white rounded-2xl font-black text-[11px] uppercase shadow-xl hover:scale-105 active:scale-95 transition-all">Udostępnij teraz</button>
-            </div>
+    <div class="space-y-4">
+        <div>
+            <label class="text-[10px] font-black uppercase text-slate-400 ml-1">Twoja Nazwa (Autor)</label>
+            <input type="text" id="modal-author" class="modal-input" placeholder="np. CLOUD MATH">
+        </div>
+        <div>
+            <label class="text-[10px] font-black uppercase text-slate-400 ml-1">Krótki opis zestawu</label>
+            <input type="text" id="modal-desc" class="modal-input" placeholder="np. Wielomiany - poziom trudny">
         </div>
     </div>
 
-    <header class="h-20 flex items-center px-8 shrink-0 z-50">
-        <div class="flex items-center gap-8 w-full h-full">
-            <div class="flex items-center gap-4">
-                <div class="bg-indigo-600 p-2.5 rounded-xl text-white shadow-lg"><i class="fas fa-square-root-variable"></i></div>
-                <h1 class="brand-font font-bold text-2xl leading-none uppercase tracking-tighter">CLOUD MATH</h1>
-            </div>
-
-            <nav class="flex gap-2 ml-10 h-full">
-                <button onclick="switchTab('edit')" id="btn-edit" class="nav-btn active">Kreator</button>
-                <button onclick="switchTab('bank')" id="btn-bank" class="nav-btn">Bank Zadań</button>
-                <button onclick="switchTab('forum')" id="btn-forum" class="nav-btn"><i class="fas fa-comments mr-2"></i> Forum</button>
-                <button onclick="switchTab('history')" id="btn-history" class="nav-btn">Moje Pliki</button>
-                
-                <div class="dropdown">
-                    <button class="nav-btn text-amber-600">
-                        <i class="fas fa-graduation-cap mr-2"></i> Arkusze CKE <i class="fas fa-chevron-down ml-2 text-[8px]"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <div class="dropdown-item" onclick="loadCKE('e8')"><i class="fas fa-child mr-3"></i> Egzamin Ósmoklasisty</div>
-                        <div class="dropdown-item" onclick="loadCKE('matura')"><i class="fas fa-user-graduate mr-3"></i> Matura</div>
-                    </div>
-                </div>
-                
-                <button onclick="switchTab('settings')" id="btn-settings" class="nav-btn">Opcje</button>
-            </nav>
-
-            <div class="ml-auto flex items-center gap-4">
-                <button onclick="newSheet()" class="text-emerald-600 font-black text-[10px] uppercase hover:opacity-70 transition-all">
-                    <i class="fas fa-plus mr-1"></i> Nowy projekt
-                </button>
-                <button id="pdfBtn" onclick="generatePDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-3.5 rounded-2xl font-black text-xs shadow-xl shadow-indigo-500/20 transition-all">
-                    POBIERZ ARKUSZ PDF
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <div class="flex flex-1 overflow-hidden">
-        <aside class="w-[460px] flex flex-col p-8 overflow-y-auto shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-            
-            <div id="pane-edit" class="space-y-6">
-                <div class="space-y-2">
-                    <label class="text-[10px] font-black uppercase opacity-30 ml-1 tracking-widest">Tytuł Arkusza</label>
-                    <input type="text" id="titleInput" oninput="renderPreview()" placeholder="np. Sprawdzian z Wielomianów" class="w-full p-4 rounded-2xl outline-none font-bold text-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm focus:border-indigo-500 transition-all">
-                </div>
-
-                <div id="view-paste" class="space-y-4">
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="text-[10px] font-black uppercase opacity-30 tracking-widest">Treść zadań</label>
-                        <span class="text-[9px] font-bold text-indigo-500 uppercase">Generator Gotowy</span>
-                    </div>
-                    <textarea id="taskInput" class="w-full h-[450px] bg-slate-900 text-indigo-200 rounded-2xl p-6 text-xs font-mono border-none outline-none shadow-inner" placeholder="Zadanie 1. (0-1) Treść...&#10;Odpowiedź: wynik"></textarea>
-                    <button onclick="parseTasks()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg transition-all active:scale-95">
-                        Generuj Strukturę Arkusza
-                    </button>
-                </div>
-
-                <div id="view-drag" class="hidden">
-                    <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-2xl mb-4 border border-indigo-100 dark:border-indigo-900/30">
-                        <p class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase text-center tracking-tighter">Przeciągnij zadania, aby zmienić kolejność</p>
-                    </div>
-                    <div id="sortable-list" class="space-y-3 mb-6"></div>
-                    <button onclick="backToPaste()" class="w-full py-3 text-[10px] font-black opacity-40 hover:opacity-100 uppercase transition-all">
-                        <i class="fas fa-edit mr-2"></i> Powrót do edycji tekstu
-                    </button>
-                </div>
-            </div>
-
-            <div id="pane-bank" class="hidden space-y-6">
-                <h3 class="font-black text-2xl uppercase tracking-tighter">Bank Zadań</h3>
-                <div id="bank-list" class="space-y-4"></div>
-            </div>
-
-            <div id="pane-forum" class="hidden space-y-6">
-                <div class="flex justify-between items-end">
-                    <h3 class="font-black text-2xl uppercase tracking-tighter">Forum Społeczności</h3>
-                    <span id="forum-count" class="bg-indigo-600 text-white text-[10px] px-3 py-1 rounded-full font-black">0</span>
-                </div>
-                <div id="forum-list" class="space-y-4"></div>
-            </div>
-
-            <div id="pane-history" class="hidden space-y-6">
-                <h3 class="font-black text-2xl uppercase tracking-tighter">Twoja Biblioteka</h3>
-                <div id="history-list" class="space-y-4"></div>
-            </div>
-
-            <div id="pane-cke" class="hidden space-y-6">
-                <div id="cke-status" class="p-6 rounded-3xl text-white shadow-xl bg-indigo-600">
-                    <h3 id="cke-title" class="font-black text-xl uppercase brand-font">Arkusze</h3>
-                    <p class="text-[10px] font-bold uppercase opacity-80 mt-1">OFICJALNA BAZA CKE</p>
-                </div>
-                <div id="cke-list" class="space-y-4 mt-4"></div>
-            </div>
-
-            <div id="pane-settings" class="hidden space-y-4">
-                <h3 class="font-black text-2xl uppercase tracking-tighter mb-4">Ustawienia</h3>
-                <button onclick="toggleTheme(true)" class="w-full p-5 rounded-2xl bg-slate-900 text-white font-black text-[11px] uppercase flex justify-between items-center">Tryb Ciemny <i class="fas fa-moon"></i></button>
-                <button onclick="toggleTheme(false)" class="w-full p-5 rounded-2xl bg-white border border-slate-200 text-slate-900 font-black text-[11px] uppercase flex justify-between items-center">Tryb Jasny <i class="fas fa-sun"></i></button>
-                <button onclick="clearAllData()" class="w-full p-5 rounded-2xl text-red-500 font-black text-[11px] uppercase opacity-50 hover:opacity-100 transition-all mt-10">Wyczyść całą pamięć</button>
-            </div>
-        </aside>
-
-        <main class="flex-1 overflow-y-auto p-12 flex justify-center bg-slate-100 dark:bg-slate-950 transition-colors duration-500">
-            <div id="printable-content" class="shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)]">
-                <div class="pdf-page">
-                    <div class="flex justify-between items-start border-b-[6px] border-black pb-10 mb-10">
-                        <div>
-                            <h2 id="pdf-title-display" class="text-4xl font-black uppercase tracking-tighter brand-font leading-none">ARKUSZ PRACY</h2>
-                            <p class="text-slate-500 font-extrabold text-[11px] mt-3 tracking-[0.3em] uppercase">Podaj imię oraz nazwisko:</p>
-                        </div>
-                        <div class="text-right">
-                            <div id="pdf-date" class="font-black text-2xl mb-1 uppercase tracking-tighter"></div>
-                            <div id="pdf-total" class="bg-black text-white px-6 py-2.5 rounded font-black text-[11px] uppercase">SUMA: 0 PKT</div>
-                        </div>
-                    </div>
-                    <div id="tasks-output"></div>
-                    <div class="mt-20 pt-10 border-t border-slate-100 text-center opacity-20 font-black text-[9px] uppercase tracking-widest">
-                        Wygenerowano w CLOUD MATH
-                    </div>
-                </div>
-            </div>
-        </main>
+    <div class="flex gap-3 pt-2">
+        <button onclick="closeModal()" class="flex-1 py-4 font-black text-[11px] uppercase text-slate-400 hover:text-slate-600 transition-all">Anuluj</button>
+        <button onclick="confirmPublish()" class="flex-1 py-4 bg-indigo-600 text-white rounded-2xl font-black text-[11px] uppercase shadow-xl hover:scale-105 active:scale-95 transition-all">Udostępnij teraz</button>
     </div>
-</body>
-
-    <script>
-        // --- BAZA DANYCH CKE ---
-        const CKE_DB = {
-            "matura": {
-                2026: "https://arkusze.pl/maturalne/matematyka-2026-marzec-probna-podstawowa.pdf",
-                2025: "https://arkusze.pl/maturalne/matematyka-2025-maj-matura-podstawowa.pdf",
-                2024: "https://arkusze.pl/maturalne/matematyka-2024-maj-matura-podstawowa.pdf",
-                2023: "https://arkusze.pl/maturalne/matematyka-2023-maj-matura-podstawowa.pdf"
-            },
-            "e8": {
-                2026: "https://arkusze.pl/osmoklasisty/matematyka-2026-styczen-egzamin-osmoklasisty-probny.pdf",
-                2025: "https://arkusze.pl/osmoklasisty/matematyka-2025-egzamin-osmoklasisty.pdf",
-                2024: "https://arkusze.pl/osmoklasisty/matematyka-2024-egzamin-osmoklasisty.pdf"
-            }
-        };
-
-        let tasksData = [];
-        let taskHeights = {};
-        let currentPublishId = null;
-
-        // --- ZAKŁADKI ---
-function switchTab(tab) { 
-    const tabs = ['edit', 'forum', 'history', 'cke', 'settings', 'bank'];
-    tabs.forEach(t => { 
-        const pane = document.getElementById(`pane-${t}`);
-        const btn = document.getElementById(`btn-${t}`);
-        if(pane) pane.classList.toggle('hidden', t !== tab);
-        if(btn) btn.classList.toggle('active', t === tab);
-    }); 
-
-    // Wywoływanie renderowania danych
-    if(tab === 'forum') renderForum();
-    if(tab === 'history') renderHistoryList(); // upewnij się, że masz tę funkcję!
-    if(tab === 'bank') renderBank();
-}
-        }
-
-        // --- LOGIKA BANKU ZADAŃ ---
-        function getBank() { return JSON.parse(localStorage.getItem('cm_bank_data') || '[]'); }
-
-        function saveToBank(id) {
-            const task = tasksData.find(t => t.id === id);
-            if(!task) return;
-            const bank = getBank();
-            if(bank.some(b => b.body === task.body)) { alert("To zadanie jest już w banku!"); return; }
-            bank.push({...task, savedAt: new Date().toLocaleString()});
-            localStorage.setItem('cm_bank_data', JSON.stringify(bank));
-            alert("Zadanie zapisane w Banku!");
-        }
-
-        function deleteFromBank(idx) {
-            const bank = getBank();
-            bank.splice(idx, 1);
-            localStorage.setItem('cm_bank_data', JSON.stringify(bank));
-            renderBank();
-        }
-
-        function addToCurrentSheet(idx) {
-            const bankTask = getBank()[idx];
-            const newId = "t_" + Math.random().toString(36).substr(2, 5);
-            const newTask = { ...bankTask, id: newId, num: tasksData.length + 1 };
-            tasksData.push(newTask);
-            taskHeights[newId] = 6;
-            
-            // Aktualizuj też textarea, żeby zmiany nie zniknęły
-            const taskText = `\nZadanie ${newTask.num}. (${newTask.pts}) ${newTask.body}`;
-            document.getElementById('taskInput').value += taskText;
-            
-            renderAll();
-            switchTab('edit');
-            document.getElementById('view-paste').classList.add('hidden');
-            document.getElementById('view-drag').classList.remove('hidden');
-        }
-
-        function renderBank() {
-            const list = document.getElementById('bank-list');
-            const bank = getBank();
-            if(bank.length === 0) {
-                list.innerHTML = `<p class="text-center py-20 opacity-20 font-black text-[11px] uppercase tracking-widest">Bank zadań jest pusty</p>`;
-                return;
-            }
-            list.innerHTML = bank.map((t, i) => `
-                <div class="bank-card space-y-3">
-                    <div class="text-[9px] font-black text-indigo-500 uppercase tracking-widest">Zadanie (${t.pts} PKT)</div>
-                    <div class="text-[11px] font-bold line-clamp-3 opacity-60">${t.body}</div>
-                    <div class="flex gap-2">
-                        <button onclick="addToCurrentSheet(${i})" class="flex-1 py-2 bg-indigo-600 text-white rounded-lg font-black text-[9px] uppercase transition-all hover:bg-indigo-700">Dodaj do arkusza</button>
-                        <button onclick="deleteFromBank(${i})" class="w-10 flex items-center justify-center bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all"><i class="fas fa-trash text-[10px]"></i></button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // --- LOGIKA FORUM ---
-        function getForumPosts() { return JSON.parse(localStorage.getItem('cm_forum_data') || '[]'); }
-
-        function renderForum() {
-            const list = document.getElementById('forum-list');
-            const posts = getForumPosts();
-            document.getElementById('forum-count').innerText = posts.length;
-
-            if(posts.length === 0) {
-                list.innerHTML = `<div class="text-center py-20 opacity-20 font-black text-[11px] uppercase tracking-widest">Forum jest puste</div>`;
-                return;
-            }
-
-            list.innerHTML = posts.map(p => `
-                <div class="forum-card space-y-4">
-                    <div class="flex justify-between items-start">
-                        <div class="max-w-[70%]">
-                            <h4 class="font-black text-sm uppercase leading-tight">${p.title}</h4>
-                            <p class="text-[10px] font-bold text-indigo-500 uppercase mt-1">${p.desc}</p>
-                        </div>
-                        <span class="text-emerald-500 text-[9px] font-black bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-3 py-1.5 rounded-lg shadow-sm">${p.author}</span>
-                    </div>
-                    <div class="flex gap-2">
-<button onclick="importFromForum('${p.id}')" class="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-black text-[10px] uppercase shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 transition-all">Wczytaj projekt</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function openPublishModal(id) {
-            currentPublishId = id;
-            document.getElementById('publish-modal').style.display = 'flex';
-        }
-
-        function closeModal() { document.getElementById('publish-modal').style.display = 'none'; }
-
-        function confirmPublish() {
-            const author = document.getElementById('modal-author').value;
-            const desc = document.getElementById('modal-desc').value;
-            if(!author || !desc) { alert("Wypełnij wszystkie pola!"); return; }
-
-            const history = JSON.parse(localStorage.getItem('cm_history_data') || '[]');
-            const sheet = history.find(x => x.id === currentPublishId);
-
-            if(sheet) {
-                const forum = getForumPosts();
-                const newPost = {
-                    id: 'f_' + Date.now(),
-                    title: sheet.title,
-                    author: author,
-                    desc: desc,
-                    raw: sheet.raw,
-                    tasks: sheet.tasks,
-                    heights: sheet.heights
-                };
-                forum.unshift(newPost);
-                localStorage.setItem('cm_forum_data', JSON.stringify(forum));
-                alert("Arkusz opublikowany pomyślnie!");
-                closeModal();
-                switchTab('forum');
-            }
-        }
-
-        function importFromForum(id) {
-            const post = getForumPosts().find(x => x.id === id);
-            if(post) {
-                document.getElementById('titleInput').value = post.title;
-                document.getElementById('taskInput').value = post.raw;
-                tasksData = post.tasks;
-                taskHeights = post.heights;
-                renderAll();
-                switchTab('edit');
-                document.getElementById('view-paste').classList.add('hidden');
-                document.getElementById('view-drag').classList.remove('hidden');
-            }
-        }
-
-        // --- KREATOR I PARSOWANIE ---
-        function parseTasks() {
-            const input = document.getElementById('taskInput').value.trim();
-            if(!input) return;
-            const regex = /Zadanie\s*(\d+)\.\s*(?:\(\s*([\d-]+)\s*\))?\s*([\s\S]*?)(?=Zadanie\s*\d+\.|$)/gi;
-            let match; tasksData = [];
-            while ((match = regex.exec(input)) !== null) {
-                const id = "t_" + Math.random().toString(36).substr(2, 5);
-                tasksData.push({ id, num: match[1], pts: match[2] || "0-1", body: match[3].trim() });
-                if (!taskHeights[id]) taskHeights[id] = 6;
-            }
-            renderAll();
-            document.getElementById('view-paste').classList.add('hidden');
-            document.getElementById('view-drag').classList.remove('hidden');
-            saveToLocalStorage();
-        }
-
-function renderPreview() {
-    const output = document.getElementById('tasks-output');
-    const title = document.getElementById('titleInput').value || "ARKUSZ PRACY";
-    document.getElementById('pdf-title-display').innerText = title;
-    document.getElementById('pdf-date').innerText = new Date().toLocaleDateString('pl-PL', { day: 'numeric', month: 'short', year: 'numeric' });
-    
-    let html = ""; 
-    let ansHtml = `<div class="pdf-page" style="page-break-before: always;">
-                    <h2 class="text-3xl font-black uppercase tracking-tighter brand-font mb-10 border-b-4 border-black pb-4">Klucz Odpowiedzi</h2>`;
-    let total = 0;
-
-    tasksData.forEach((t, i) => {
-        const h = taskHeights[t.id] || 6;
-        const ptsRaw = t.pts.match(/(\d+)(?!.*\d)/);
-        if(ptsRaw) total += parseInt(ptsRaw[0]);
-
-        // --- KLUCZOWA ZMIANA: Rozdzielanie treści ---
-        const parts = t.body.split(/Odpowiedź:/i);
-        const taskBody = parts[0].trim();
-        const answerBody = parts[1] ? parts[1].trim() : "Brak odpowiedzi w bazie";
-
-        // Treść na kartę pracy
-        html += `
-            <div class="task-box">
-                <div class="flex justify-between items-end mb-4">
-                    <div style="background:#000; color:#fff; padding:6px 18px; font-weight:900; border-radius:4px; font-size:11pt; text-transform:uppercase">ZADANIE ${i+1}</div>
-                    <div style="font-weight:900; border:3px solid #000; padding:3px 14px; font-style:italic; font-size:10pt">/ ${t.pts} PKT</div>
-                </div>
-                <div style="font-size:14pt; font-family:serif; line-height:1.7; margin-bottom:20px; color:#000">${taskBody.replace(/\n/g, '<br>')}</div>
-                <div class="math-grid" style="height:${h * 20}px"></div>
-                <div class="no-print mt-3 flex gap-2">
-                    <button onclick="updateGrid('${t.id}', 2)" class="text-[9px] font-black bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-lg">+ LINIE</button>
-                    <button onclick="updateGrid('${t.id}', -2)" class="text-[9px] font-black bg-white text-slate-400 border border-slate-100 px-3 py-1.5 rounded-lg">- LINIE</button>
-                    <button onclick="saveToBank('${t.id}')" class="ml-auto text-[9px] font-black bg-amber-50 text-amber-600 px-4 py-1.5 rounded-lg hover:bg-amber-500 hover:text-white transition-all"><i class="fas fa-star mr-1"></i> ZAPISZ W BANKU</button>
-                </div>
-            </div>`;
-
-        // Treść do klucza
-        ansHtml += `
-            <div style="margin-bottom: 20px; padding: 15px; border-left: 5px solid #4f46e5; background: #f8fafc;">
-                <div style="font-weight: 900; font-size: 10pt; color: #4f46e5;">ZADANIE ${i+1}</div>
-                <div style="font-size: 12pt; color: #000;">${answerBody}</div>
-            </div>`;
-    });
-
-    ansHtml += `</div>`; // Zamknięcie strony klucza
-    
-    // Łączymy kartę pracy z kluczem
-    output.innerHTML = html ? (html + ansHtml) : `<div class="py-40 text-center opacity-5 font-black text-6xl uppercase tracking-tighter brand-font">Arkusz Pusty</div>`;
-    
-    document.getElementById('pdf-total').innerText = `SUMA: ${total} PKT`;
-    renderMathInElement(output, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false });
-}
-
-        function renderAll() {
-            const list = document.getElementById('sortable-list');
-            list.innerHTML = tasksData.map(t => `
-                <div class="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-2xl flex items-center gap-4 cursor-grab font-black text-[11px] uppercase text-indigo-700">
-                    <i class="fas fa-grip-vertical opacity-30"></i> Zadanie ${t.num}
-                </div>`).join('');
-            renderPreview();
-            new Sortable(list, { animation: 150, onEnd: () => {
-                const names = Array.from(list.children).map(el => el.innerText.replace('Zadanie ', '').trim());
-                let newOrder = [];
-                names.forEach(n => {
-                    const task = tasksData.find(x => x.num == n);
-                    if(task) newOrder.push(task);
-                });
-                tasksData = newOrder;
-                renderPreview();
-            }});
-        }
-
-        // --- HISTORIA ---
-        function saveToLocalStorage() {
-            if(tasksData.length === 0) return;
-            const history = JSON.parse(localStorage.getItem('cm_history_data') || '[]');
-            const entry = { id: Date.now(), title: document.getElementById('titleInput').value || "Bez tytułu", date: new Date().toLocaleString(), tasks: tasksData, heights: taskHeights, raw: document.getElementById('taskInput').value };
-            history.unshift(entry);
-            localStorage.setItem('cm_history_data', JSON.stringify(history.slice(0, 12)));
-        }
-
-        function renderHistoryList() {
-            const history = JSON.parse(localStorage.getItem('cm_history_data') || '[]');
-            const container = document.getElementById('history-list');
-            if(history.length === 0) { container.innerHTML = `<p class="text-center py-10 opacity-30 text-[10px] font-black uppercase">Biblioteka jest pusta</p>`; return; }
-            
-            container.innerHTML = history.map(h => `
-                <div class="history-card">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-xs font-black uppercase truncate">${h.title}</span>
-                        <span class="text-[8px] font-bold opacity-30">${h.date}</span>
-                    </div>
-                    <div class="flex gap-2">
-<button onclick="loadFromHistory(${h.id})" class="flex-1 py-2.5 bg-emerald-600 text-white rounded-xl font-black text-[9px] uppercase shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 transition-all">Otwórz</button>
-                        <button onclick="openPublishModal(${h.id})" class="flex-1 py-2.5 bg-indigo-600 text-white rounded-xl font-black text-[9px] uppercase shadow-lg shadow-indigo-100">Udostępnij</button>
-                    </div>
-                </div>`).join('');
-        }
-
-        function loadFromHistory(id) {
-            const history = JSON.parse(localStorage.getItem('cm_history_data') || '[]');
-            const item = history.find(x => x.id === id);
-            if(item) {
-                document.getElementById('titleInput').value = item.title;
-                document.getElementById('taskInput').value = item.raw;
-                tasksData = item.tasks;
-                taskHeights = item.heights;
-                renderAll();
-                switchTab('edit');
-                document.getElementById('view-paste').classList.add('hidden');
-                document.getElementById('view-drag').classList.remove('hidden');
-            }
-        }
-
-        // --- CKE ---
-        function loadCKE(category) {
-            switchTab('cke');
-            const head = document.getElementById('cke-status');
-            const title = document.getElementById('cke-title');
-            const list = document.getElementById('cke-list');
-            list.innerHTML = "";
-            head.className = category === 'e8' ? "p-6 rounded-3xl bg-emerald-600 text-white shadow-xl" : "p-6 rounded-3xl bg-indigo-600 text-white shadow-xl";
-            title.innerText = category === 'e8' ? "Egzamin Ósmoklasisty" : "Matura Podstawowa";
-            
-            const data = CKE_DB[category];
-            for(let y in data) {
-                list.innerHTML += `
-<a href="${data[y]}" target="_blank" class="flex justify-between items-center p-5 bg-white rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all group">
-                        <div>
-                            <span class="text-[9px] font-black text-indigo-500 uppercase tracking-widest block mb-1">Arkusze CKE</span>
-                            <span class="text-sm font-black uppercase">Egzamin z roku ${y}</span>
-                        </div>
-                        <i class="fas fa-file-pdf text-xl opacity-20 group-hover:opacity-100 transition-all"></i>
-                    </a>`;
-            }
-        }
-
-        // --- INNE ---
-        function toggleTheme(dark) { document.getElementById('app-body').classList.toggle('dark-mode', dark); localStorage.setItem('cm_dark', dark); }
-        function newSheet() { document.getElementById('titleInput').value = ""; document.getElementById('taskInput').value = ""; tasksData = []; taskHeights = {}; backToPaste(); renderPreview(); }
-        function backToPaste() { document.getElementById('view-paste').classList.remove('hidden'); document.getElementById('view-drag').classList.add('hidden'); }
-        function updateGrid(id, d) { taskHeights[id] = Math.max(0, (taskHeights[id] || 6) + d); renderPreview(); }
-        function clearAllData() { if(confirm("Czy na pewno usunąć wszystkie zapisane arkusze i posty na Forum?")) { localStorage.clear(); location.reload(); } }
-        
-async function generatePDF() { 
-    const btn = document.getElementById('pdfBtn');
-    btn.innerText = "PRZYGOTOWYWANIE...";
-
-    // 1. Znajdź wszystkie przyciski edycji linii i ukryj je ręcznie na chwilę
-    const editBtns = document.querySelectorAll('.no-print');
-    editBtns.forEach(el => el.style.visibility = 'hidden');
-
-    const opt = { 
-        margin: 0, 
-        filename: `${document.getElementById('titleInput').value || 'Arkusz'}.pdf`,
-        html2canvas: { scale: 3, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    try {
-        await html2pdf().set(opt).from(document.getElementById('printable-content')).save();
-    } finally {
-        // 2. Przywróć widoczność przycisków w edytorze po pobraniu
-        editBtns.forEach(el => el.style.visibility = 'visible');
-        btn.innerText = "POBIERZ ARKUSZ PDF";
-    }
-}
-
-        // Start
-        toggleTheme(localStorage.getItem('cm_dark') === 'true');
-        renderPreview();
-function switchTabMob(mode) {
-    // 1. Zaktualizuj wygląd przycisków w menu dolnym
-    document.querySelectorAll('.mob-btn').forEach(b => b.classList.remove('active'));
-    const activeBtn = document.getElementById(`mob-${mode}`);
-    if(activeBtn) activeBtn.classList.add('active');
-    
-    if(mode === 'view') {
-        // Przed wejściem w podgląd, pobierz aktualną treść z pola tekstowego
-        // Dzięki temu podgląd nie będzie pusty po przejściu z edycji
-        if(typeof parseTasks === "function") {
-            parseTasks(); 
-        }
-        document.body.classList.add('view-mode');
-        renderPreview(); // Odśwież widok arkusza
-    } else {
-        document.body.classList.remove('view-mode');
-        // Jeśli mode to 'edit', 'bank' lub 'forum', użyj standardowej funkcji switchTab
-        const targetTab = (mode === 'edit') ? 'edit' : mode;
-        switchTab(targetTab);
-    }
-}
-    </script>
-    <div id="mobile-nav" class="no-print">
-    <button onclick="switchTabMob('edit')" id="mob-edit" class="mob-btn active">
-        <i class="fas fa-edit"></i>Edytuj
-    </button>
-    <button onclick="switchTabMob('view')" id="mob-view" class="mob-btn">
-        <i class="fas fa-eye"></i>Podgląd
-    </button>
-    <button onclick="switchTabMob('bank')" id="mob-bank" class="mob-btn">
-        <i class="fas fa-database"></i>Bank
-    </button>
-    <button onclick="switchTabMob('forum')" id="mob-forum" class="mob-btn">
-        <i class="fas fa-users"></i>Forum
 </div>
-</body>
-</html>
+</div><header class="h-20 flex items-center px-8 shrink-0 z-50"> <div class="flex items-center gap-8 w-full h-full"> <div class="flex items-center gap-4"> <div class="bg-indigo-600 p-2.5 rounded-xl text-white shadow-lg"><i class="fas fa-square-root-variable"></i></div> <div> <h1 class="brand-font font-bold text-2xl leading-none uppercase tracking-tighter">CLOUD MATH</h1> </div> </div>
+text
+
+    <nav class="flex gap-2 ml-10 h-full">
+        <button onclick="switchTab('edit')" id="btn-edit" class="nav-btn active">Kreator</button>
+        <button onclick="switchTab('bank')" id="btn-bank" class="nav-btn"></i> Bank Zadań</button>
+        <button onclick="switchTab('forum')" id="btn-forum" class="nav-btn"><i class="fas fa-comments mr-2"></i> Forum</button>
+        <button onclick="switchTab('history')" id="btn-history" class="nav-btn">Moje Pliki</button>
+        
+        <div class="dropdown">
+            <button class="nav-btn text-amber-600">
+                <i class="fas fa-graduation-cap mr-2"></i> Arkusze CKE <i class="fas fa-chevron-down ml-2 text-[8px]"></i>
+            </button>
+            <div class="dropdown-content">
+                <div class="dropdown-item" onclick="loadCKE('e8')"><i class="fas fa-child mr-3"></i> Egzamin Ósmoklasisty</div>
+                <div class="dropdown-item" onclick="loadCKE('matura')"><i class="fas fa-user-graduate mr-3"></i> Matura</div>
+            </div>
+        </div>
+        
+        <button onclick="switchTab('settings')" id="btn-settings" class="nav-btn">Opcje</button>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-4">
+        <button onclick="newSheet()" class="text-emerald-600 font-black text-[10px] uppercase hover:opacity-70 transition-all">
+            <i class="fas fa-plus mr-1"></i> Nowy projekt
+        </button>
+        <button id="pdfBtn" onclick="generatePDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-3.5 rounded-2xl font-black text-xs shadow-xl shadow-indigo-500/20 transition-all">
+            POBIERZ ARKUSZ PDF
+        </button>
+    </div>
+</div>
+</header><div class="flex flex-1 overflow-hidden"> <aside class="w-[460px] flex flex-col p-8 overflow-y-auto shrink-0">
+text
+
+    <div id="pane-edit" class="space-y-6">
+        <div class="space-y-2">
+            <label class="text-[10px] font-black uppercase opacity-30 ml-1 tracking-widest">Tytuł Arkusza</label>
+            <input type="text" id="titleInput" oninput="renderPreview()" placeholder="np. Sprawdzian z Wielomianów" class="w-full p-4 rounded-2xl outline-none font-bold text-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm focus:border-indigo-500 transition-all">
+        </div>
+
+        <div id="view-paste" class="space-y-4">
+            <div class="flex justify-between items-center px-1">
+                <label class="text-[10px] font-black uppercase opacity-30 tracking-widest">Treść zadań</label>
+                <span class="text-[9px] font-bold text-indigo-500">GOTOWY DO EDYCJI</span>
+            </div>
+            <textarea id="taskInput" class="w-full h-[480px] bg-slate-900 text-indigo-200 rounded-2xl p-6 text-xs font-mono leading-relaxed border-none outline-none focus:ring-2 ring-indigo-500/20" placeholder="Zadanie 1. (0-1) ..."></textarea>
+            <button onclick="parseTasks()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg hover:bg-indigo-700 transition-all"> Generuj Strukturę Arkusza </button>
+        </div>
+text
+
+text
+
+        <div id="view-drag" class="hidden">
+            <div class="bg-indigo-50 p-4 rounded-2xl mb-4 border border-indigo-100">
+                <p class="text-[10px] font-black text-indigo-600 uppercase text-center tracking-tighter">Przeciągnij zadania, aby zmienić kolejność</p>
+            </div>
+            <div id="sortable-list" class="space-y-3 mb-6"></div>
+            <button onclick="backToPaste()" class="w-full py-3 text-[10px] font-black opacity-40 hover:opacity-100 uppercase transition-all">
+                <i class="fas fa-edit mr-2"></i> Powrót do edycji tekstu
+            </button>
+        </div>
+    </div>
+
+    <div id="pane-bank" class="hidden space-y-6">
+        <h3 class="font-black text-2xl uppercase tracking-tighter">Bank Zadań</h3>
+        <div id="bank-list" class="space-y-4"></div>
+    </div>
+
+    <div id="pane-forum" class="hidden space-y-6">
+        <div class="flex justify-between items-end">
+            <h3 class="font-black text-2xl uppercase tracking-tighter">Forum Społeczności</h3>
+            <span id="forum-count" class="bg-indigo-600 text-white text-[10px] px-3 py-1 rounded-full font-black">0</span>
+        </div>
+        <div id="forum-list" class="space-y-4"></div>
+    </div>
+
+    <div id="pane-history" class="hidden space-y-6">
+        <h3 class="font-black text-2xl uppercase tracking-tighter">Twoja Biblioteka</h3>
+        <div id="history-list" class="space-y-4"></div>
+    </div>
+
+    <div id="pane-cke" class="hidden space-y-6">
+        <div id="cke-status" class="p-6 rounded-3xl text-white shadow-xl">
+            <h3 id="cke-title" class="font-black text-xl uppercase brand-font">Arkusze</h3>
+            <p class="text-[10px] font-bold uppercase opacity-80 mt-1">OFICJALNA BAZA CKE</p>
+        </div>
+        <div id="cke-list" class="space-y-6"></div>
+    </div>
+
+    <div id="pane-settings" class="hidden space-y-4">
+        <h3 class="font-black text-2xl uppercase tracking-tighter mb-4">Ustawienia</h3>
+        <button onclick="toggleTheme(true)" class="w-full p-5 rounded-2xl bg-slate-900 text-white font-black text-[11px] uppercase flex justify-between items-center">Tryb Ciemny <i class="fas fa-moon"></i></button>
+        <button onclick="toggleTheme(false)" class="w-full p-5 rounded-2xl bg-white border border-slate-200 text-slate-900 font-black text-[11px] uppercase flex justify-between items-center">Tryb Jasny <i class="fas fa-sun"></i></button>
+        <button onclick="clearAllData()" class="w-full p-5 rounded-2xl text-red-500 font-black text-[11px] uppercase opacity-50 hover:opacity-100 transition-all mt-10">Wyczyść całą pamięć</button>
+    </div>
+</aside>
+
+<main class="flex-1 overflow-y-auto p-12 flex justify-center bg-slate-100 dark:bg-slate-950 transition-colors duration-500">
+    <div id="printable-content" class="shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)]">
+        <div class="pdf-page">
+            <div class="flex justify-between items-start border-b-[6px] border-black pb-10 mb-10">
+                <div>
+                    <h2 id="pdf-title-display" class="text-4xl font-black uppercase tracking-tighter brand-font leading-none">ARKUSZ PRACY</h2>
+                    <p class="text-slate-500 font-extrabold text-[11px] mt-3 tracking-[0.3em] uppercase">Podaj imię oraz nazwisko:</p>
+                </div>
+                <div class="text-right">
+                    <div id="pdf-date" class="font-black text-2xl mb-1 uppercase tracking-tighter"></div>
+                    <div id="pdf-total" class="bg-black text-white px-6 py-2.5 rounded font-black text-[11px] uppercase">SUMA: 0 PKT</div>
+                </div>
+            </div>
+            <div id="tasks-output">
+                </div>
+            <div class="mt-20 pt-10 border-t border-slate-100 text-center opacity-20 font-black text-[9px] uppercase tracking-widest">
+            </div>
+        </div>
+    </div>
+</main>
+</div><script> // --- BAZA DANYCH CKE --- const CKE_DB = { "matura": { 2026: "https://arkusze.pl/maturalne/matematyka-2026-marzec-probna-podstawowa.pdf", 2025: "https://arkusze.pl/maturalne/matematyka-2025-maj-matura-podstawowa.pdf", 2024: "https://arkusze.pl/maturalne/matematyka-2024-maj-matura-podstawowa.pdf", 2023: "https://arkusze.pl/maturalne/matematyka-2023-maj-matura-podstawowa.pdf" }, "e8": { 2026: "https://arkusze.pl/osmoklasisty/matematyka-2026-styczen-egzamin-osmoklasisty-probny.pdf", 2025: "https://arkusze.pl/osmoklasisty/matematyka-2025-egzamin-osmoklasisty.pdf", 2024: "https://arkusze.pl/osmoklasisty/matematyka-2024-egzamin-osmoklasisty.pdf" } }; let tasksData = []; let taskHeights = {}; let currentPublishId = null; // --- ZAKŁADKI --- function switchTab(tab) { const tabs = ['edit', 'forum', 'history', 'cke', 'settings', 'bank']; tabs.forEach(t => { const pane = document.getElementById(`pane-${t}`); const btn = document.getElementById(`btn-${t}`); if(pane) pane.classList.toggle('hidden', t !== tab); if(btn) btn.classList.toggle('active', t === tab); }); if(tab === 'forum') renderForum(); if(tab === 'history') renderHistoryList(); if(tab === 'bank') renderBank(); } // --- LOGIKA BANKU ZADAŃ --- function getBank() { return JSON.parse(localStorage.getItem('cm_bank_data') || '[]'); } function saveToBank(id) { const task = tasksData.find(t => t.id === id); if(!task) return; const bank = getBank(); if(bank.some(b => b.body === task.body)) { alert("To zadanie jest już w banku!"); return; } bank.push({...task, savedAt: new Date().toLocaleString()}); localStorage.setItem('cm_bank_data', JSON.stringify(bank)); alert("Zadanie zapisane w Banku!"); } function deleteFromBank(idx) { const bank = getBank(); bank.splice(idx, 1); localStorage.setItem('cm_bank_data', JSON.stringify(bank)); renderBank(); } function addToCurrentSheet(idx) { const bankTask = getBank()[idx]; const newId = "t_" + Math.random().toString(36).substr(2, 5); const newTask = { ...bankTask, id: newId, num: tasksData.length + 1 }; tasksData.push(newTask); taskHeights[newId] = 6; // Aktualizuj też textarea, żeby zmiany nie zniknęły const taskText = `\nZadanie ${newTask.num}. (${newTask.pts}) ${newTask.body}`; document.getElementById('taskInput').value += taskText; renderAll(); switchTab('edit'); document.getElementById('view-paste').classList.add('hidden'); document.getElementById('view-drag').classList.remove('hidden'); } function renderBank() { const list = document.getElementById('bank-list'); const bank = getBank(); if(bank.length === 0) { list.innerHTML = `<p class="text-center py-20 opacity-20 font-black text-[11px] uppercase tracking-widest">Bank zadań jest pusty</p>`; return; } list.innerHTML = bank.map((t, i) => ` <div class="bank-card space-y-3"> <div class="text-[9px] font-black text-indigo-500 uppercase tracking-widest">Zadanie (${t.pts} PKT)</div> <div class="text-[11px] font-bold line-clamp-3 opacity-60">${t.body}</div> <div class="flex gap-2"> <button onclick="addToCurrentSheet(${i})" class="flex-1 py-2 bg-indigo-600 text-white rounded-lg font-black text-[9px] uppercase transition-all hover:bg-indigo-700">Dodaj do arkusza</button> <button onclick="deleteFromBank(${i})" class="w-10 flex items-center justify-center bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all"><i class="fas fa-trash text-[10px]"></i></button> </div> </div> `).join(''); } // --- LOGIKA FORUM --- function getForumPosts() { return JSON.parse(localStorage.getItem('cm_forum_data') || '[]'); } function renderForum() { const list = document.getElementById('forum-list'); const posts = getForumPosts(); document.getElementById('forum-count').innerText = posts.length; if(posts.length === 0) { list.innerHTML = `<div class="text-center py-20 opacity-20 font-black text-[11px] uppercase tracking-widest">Forum jest puste</div>`; return; } list.innerHTML = posts.map(p => ` <div class="forum-card space-y-4"> <div class="flex justify-between items-start"> <div class="max-w-[70%]"> <h4 class="font-black text-sm uppercase leading-tight">${p.title}</h4> <p class="text-[10px] font-bold text-indigo-500 uppercase mt-1">${p.desc}</p> </div> <span class="text-emerald-500 text-[9px] font-black bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-3 py-1.5 rounded-lg shadow-sm">${p.author}</span> </div> <div class="flex gap-2"> <button onclick="importFromForum('${p.id}')" class="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-black text-[10px] uppercase shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 transition-all">Wczytaj projekt</button> </div> </div> `).join(''); } text function openPublishModal(id) { currentPublishId = id; document.getElementById('publish-modal').style.display = 'flex'; } function closeModal() { document.getElementById('publish-modal').style.display = 'none'; } function confirmPublish() { const author = document.getElementById('modal-author').value; const desc = document.getElementById('modal-desc').value; if(!author || !desc) { alert("Wypełnij wszystkie pola!"); return; } const history = JSON.parse(localStorage.getItem('cm_history_data') || '[]'); const sheet = history.find(x => x.id === currentPublishId); if(sheet) { const forum = getForumPosts(); const newPost = { id: 'f_' + Date.now(), title: sheet.title, author: author, desc: desc, raw: sheet.raw, tasks: sheet.tasks, heights: sheet.heights }; forum.unshift(newPost); localStorage.setItem('cm_forum_data', JSON.stringify(forum)); alert("Arkusz opublikowany pomyślnie!"); closeModal(); switchTab('forum'); } } function importFromForum(id) { const post = getForumPosts().find(x => x.id === id); if(post) { document.getElementById('titleInput').value = post.title; document.getElementById('taskInput').value = post.raw; tasksData = post.tasks; taskHeights = post.heights; renderAll(); switchTab('edit'); document.getElementById('view-paste').classList.add('hidden'); document.getElementById('view-drag').classList.remove('hidden'); } } // --- KREATOR I PARSOWANIE --- function parseTasks() { const input = document.getElementById('taskInput').value.trim(); if(!input) return; const regex = /Zadanie\s*(\d+)\.\s*(?:\(\s*([\d-]+)\s*\))?\s*([\s\S]*?)(?=Zadanie\s*\d+\.|$)/gi; let match; tasksData = []; while ((match = regex.exec(input)) !== null) { const id = "t_" + Math.random().toString(36).substr(2, 5); tasksData.push({ id, num: match[1], pts: match[2] || "0-1", body: match[3].trim() }); if (!taskHeights[id]) taskHeights[id] = 6; } renderAll(); document.getElementById('view-paste').classList.add('hidden'); document.getElementById('view-drag').classList.remove('hidden'); saveToLocalStorage(); } function renderPreview() { const output = document.getElementById('tasks-output'); const title = document.getElementById('titleInput').value || "ARKUSZ PRACY"; document.getElementById('pdf-title-display').innerText = title; document.getElementById('pdf-date').innerText = new Date().toLocaleDateString('pl-PL', { day: 'numeric', month: 'short', year: 'numeric' }); text let html = ""; let ansHtml = `<div class="pdf-page" style="page-break-before: always;"> <h2 class="text-3xl font-black uppercase tracking-tighter brand-font mb-10 border-b-4 border-black pb-4">Klucz Odpowiedzi</h2>`; let total = 0; tasksData.forEach((t, i) => { const h = taskHeights[t.id] || 6; const ptsRaw = t.pts.match(/(\d+)(?!.*\d)/); if(ptsRaw) total += parseInt(ptsRaw[0]); // --- KLUCZOWA ZMIANA: Rozdzielanie treści --- const parts = t.body.split(/Odpowiedź:/i); const taskBody = parts[0].trim(); const answerBody = parts[1] ? parts[1].trim() : "Brak odpowiedzi w bazie"; // Treść na kartę pracy html += ` <div class="task-box"> <div class="flex justify-between items-end mb-4"> <div style="background:#000; color:#fff; padding:6px 18px; font-weight:900; border-radius:4px; font-size:11pt; text-transform:uppercase">ZADANIE ${i+1}</div> <div style="font-weight:900; border:3px solid #000; padding:3px 14px; font-style:italic; font-size:10pt">/ ${t.pts} PKT</div> </div> <div style="font-size:14pt; font-family:serif; line-height:1.7; margin-bottom:20px; color:#000">${taskBody.replace(/\n/g, '<br>')}</div> <div class="math-grid" style="height:${h * 20}px"></div> <div class="no-print mt-3 flex gap-2"> <button onclick="updateGrid('${t.id}', 2)" class="text-[9px] font-black bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-lg">+ LINIE</button> <button onclick="updateGrid('${t.id}', -2)" class="text-[9px] font-black bg-white text-slate-400 border border-slate-100 px-3 py-1.5 rounded-lg">- LINIE</button> <button onclick="saveToBank('${t.id}')" class="ml-auto text-[9px] font-black bg-amber-50 text-amber-600 px-4 py-1.5 rounded-lg hover:bg-amber-500 hover:text-white transition-all"><i class="fas fa-star mr-1"></i> ZAPISZ W BANKU</button> </div> </div>`; // Treść do klucza ansHtml += ` <div style="margin-bottom: 20px; padding: 15px; border-left: 5px solid #4f46e5; background: #f8fafc;"> <div style="font-weight: 900; font-size: 10pt; color: #4f46e5;">ZADANIE ${i+1}</div> <div style="font-size: 12pt; color: #000;">${answerBody}</div> </div>`; }); ansHtml += `</div>`; // Zamknięcie strony klucza // Łączymy kartę pracy z kluczem output.innerHTML = html ? (html + ansHtml) : `<div class="py-40 text-center opacity-5 font-black text-6xl uppercase tracking-tighter brand-font">Arkusz Pusty</div>`; document.getElementById('pdf-total').innerText = `SUMA: ${total} PKT`; renderMathInElement(output, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false }); } text function renderAll() { const list = document.getElementById('sortable-list'); list.innerHTML = tasksData.map(t => ` <div class="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-2xl flex items-center gap-4 cursor-grab font-black text-[11px] uppercase text-indigo-700"> <i class="fas fa-grip-vertical opacity-30"></i> Zadanie ${t.num} </div>`).join(''); renderPreview(); new Sortable(list, { animation: 150, onEnd: () => { const names = Array.from(list.children).map(el => el.innerText.replace('Zadanie ', '').trim()); let newOrder = []; names.forEach(n => { const task = tasksData.find(x => x.num == n); if(task) newOrder.push(task); }); tasksData = newOrder; renderPreview(); }}); } // --- HISTORIA --- function saveToLocalStorage() { if(tasksData.length === 0) return; const history = JSON.parse(localStorage.getItem('cm_history_data') || '[]'); const entry = { id: Date.now(), title: document.getElementById('titleInput').value || "Bez tytułu", date: new Date().toLocaleString(), tasks: tasksData, heights: taskHeights, raw: document.getElementById('taskInput').value }; history.unshift(entry); localStorage.setItem('cm_history_data', JSON.stringify(history.slice(0, 12))); } function renderHistoryList() { const history = JSON.parse(localStorage.getItem('cm_history_data') || '[]'); const container = document.getElementById('history-list'); if(history.length === 0) { container.innerHTML = `<p class="text-center py-10 opacity-30 text-[10px] font-black uppercase">Biblioteka jest pusta</p>`; return; } container.innerHTML = history.map(h => ` <div class="history-card"> <div class="flex justify-between items-center mb-3"> <span class="text-xs font-black uppercase truncate">${h.title}</span> <span class="text-[8px] font-bold opacity-30">${h.date}</span> </div> <div class="flex gap-2"> <button onclick="loadFromHistory(${h.id})" class="flex-1 py-2.5 bg-emerald-600 text-white rounded-xl font-black text-[9px] uppercase shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 transition-all">Otwórz</button> <button onclick="openPublishModal(${h.id})" class="flex-1 py-2.5 bg-indigo-600 text-white rounded-xl font-black text-[9px] uppercase shadow-lg shadow-indigo-100">Udostępnij</button> </div> </div>`).join(''); } text function loadFromHistory(id) { const history = JSON.parse(localStorage.getItem('cm_history_data') || '[]'); const item = history.find(x => x.id === id); if(item) { document.getElementById('titleInput').value = item.title; document.getElementById('taskInput').value = item.raw; tasksData = item.tasks; taskHeights = item.heights; renderAll(); switchTab('edit'); document.getElementById('view-paste').classList.add('hidden'); document.getElementById('view-drag').classList.remove('hidden'); } } // --- CKE --- function loadCKE(category) { switchTab('cke'); const head = document.getElementById('cke-status'); const title = document.getElementById('cke-title'); const list = document.getElementById('cke-list'); list.innerHTML = ""; head.className = category === 'e8' ? "p-6 rounded-3xl bg-emerald-600 text-white shadow-xl" : "p-6 rounded-3xl bg-indigo-600 text-white shadow-xl"; title.innerText = category === 'e8' ? "Egzamin Ósmoklasisty" : "Matura Podstawowa"; const data = CKE_DB[category]; for(let y in data) { list.innerHTML += ` <a href="${data[y]}" target="_blank" class="flex justify-between items-center p-5 bg-white rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition-all group"> <div> <span class="text-[9px] font-black text-indigo-500 uppercase tracking-widest block mb-1">Arkusze CKE</span> <span class="text-sm font-black uppercase">Egzamin z roku ${y}</span> </div> <i class="fas fa-file-pdf text-xl opacity-20 group-hover:opacity-100 transition-all"></i> </a>`; } } text // --- INNE --- function toggleTheme(dark) { document.getElementById('app-body').classList.toggle('dark-mode', dark); localStorage.setItem('cm_dark', dark); } function newSheet() { document.getElementById('titleInput').value = ""; document.getElementById('taskInput').value = ""; tasksData = []; taskHeights = {}; backToPaste(); renderPreview(); } function backToPaste() { document.getElementById('view-paste').classList.remove('hidden'); document.getElementById('view-drag').classList.add('hidden'); } function updateGrid(id, d) { taskHeights[id] = Math.max(0, (taskHeights[id] || 6) + d); renderPreview(); } function clearAllData() { if(confirm("Czy na pewno usunąć wszystkie zapisane arkusze i posty na Forum?")) { localStorage.clear(); location.reload(); } } async function generatePDF() { const btn = document.getElementById('pdfBtn'); btn.innerText = "PRZYGOTOWYWANIE..."; text // 1. Znajdź wszystkie przyciski edycji linii i ukryj je ręcznie na chwilę const editBtns = document.querySelectorAll('.no-print'); editBtns.forEach(el => el.style.visibility = 'hidden'); const opt = { margin: 0, filename: `${document.getElementById('titleInput').value || 'Arkusz'}.pdf`, html2canvas: { scale: 3, useCORS: true, logging: false }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }; try { await html2pdf().set(opt).from(document.getElementById('printable-content')).save(); } finally { // 2. Przywróć widoczność przycisków w edytorze po pobraniu editBtns.forEach(el => el.style.visibility = 'visible'); btn.innerText = "POBIERZ ARKUSZ PDF"; } } text // Start toggleTheme(localStorage.getItem('cm_dark') === 'true'); renderPreview(); function switchTabMob(mode) { // 1. Zaktualizuj wygląd przycisków w menu dolnym document.querySelectorAll('.mob-btn').forEach(b => b.classList.remove('active')); const activeBtn = document.getElementById(mob-${mode}); if(activeBtn) activeBtn.classList.add('active'); text if(mode === 'view') { // Przed wejściem w podgląd, pobierz aktualną treść z pola tekstowego // Dzięki temu podgląd nie będzie pusty po przejściu z edycji if(typeof parseTasks === "function") { parseTasks(); } document.body.classList.add('view-mode'); renderPreview(); // Odśwież widok arkusza } else { document.body.classList.remove('view-mode'); // Jeśli mode to 'edit', 'bank' lub 'forum', użyj standardowej funkcji switchTab const targetTab = (mode === 'edit') ? 'edit' : mode; switchTab(targetTab); } } </script><div id="mobile-nav" class="no-print"> <button onclick="switchTabMob('edit')" id="mob-edit" class="mob-btn active"> <i class="fas fa-edit"></i>Edytuj </button> <button onclick="switchTabMob('view')" id="mob-view" class="mob-btn"> <i class="fas fa-eye"></i>Podgląd </button> <button onclick="switchTabMob('bank')" id="mob-bank" class="mob-btn"> <i class="fas fa-database"></i>Bank </button> <button onclick="switchTabMob('forum')" id="mob-forum" class="mob-btn"> <i class="fas fa-users"></i>Forum </button> </div> </body> </html>
