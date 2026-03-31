@@ -404,21 +404,19 @@
         let currentPublishId = null;
 
         // --- ZAKŁADKI ---
-        function switchTab(tab) { 
-            const tabs = ['edit', 'forum', 'history', 'cke', 'settings', 'bank'];
-            tabs.forEach(t => { 
-                const pane = document.getElementById(`pane-${t}`);
-                const btn = document.getElementById(`btn-${t}`);
-                if(pane) pane.classList.toggle('hidden', t !== tab);
-                if(btn) btn.classList.toggle('active', t === tab);
-            }); 
-            if(tab === 'forum') renderForum();
-            if(tab === 'history') renderHistoryList();
-            if(tab === 'bank') renderBank();
-            function switchTab(tab) {
-    // ... ukrywanie innych paneli ...
-    if(tab === 'forum') renderForum(); // Musisz mieć tę funkcję w kodzie!
-    if(tab === 'bank') renderBank();   // I tę również!
+function switchTab(tab) { 
+    const tabs = ['edit', 'forum', 'history', 'cke', 'settings', 'bank'];
+    tabs.forEach(t => { 
+        const pane = document.getElementById(`pane-${t}`);
+        const btn = document.getElementById(`btn-${t}`);
+        if(pane) pane.classList.toggle('hidden', t !== tab);
+        if(btn) btn.classList.toggle('active', t === tab);
+    }); 
+
+    // Wywoływanie renderowania danych
+    if(tab === 'forum') renderForum();
+    if(tab === 'history') renderHistoryList(); // upewnij się, że masz tę funkcję!
+    if(tab === 'bank') renderBank();
 }
         }
 
