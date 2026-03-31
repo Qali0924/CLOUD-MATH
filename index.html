@@ -679,20 +679,25 @@ async function generatePDF() {
         // Start
         toggleTheme(localStorage.getItem('cm_dark') === 'true');
         renderPreview();
-        function switchTabMob(mode) {
-    // 1. Zaktualizuj wygląd przycisków
+function switchTabMob(mode) {
+    // 1. Zaktualizuj wygląd przycisków w menu dolnym
     document.querySelectorAll('.mob-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(`mob-${mode}`).classList.add('active');
+    const activeBtn = document.getElementById(`mob-${mode}`);
+    if(activeBtn) activeBtn.classList.add('active');
     
-    // 2. Obsłuż widoczność Podglądu vs Reszty
     if(mode === 'view') {
+        // Przed wejściem w podgląd, pobierz aktualną treść z pola tekstowego
+        // Dzięki temu podgląd nie będzie pusty po przejściu z edycji
+        if(typeof parseTasks === "function") {
+            parseTasks(); 
+        }
         document.body.classList.add('view-mode');
-        // Wywołaj renderowanie, jeśli masz taką funkcję, by odświeżyć arkusz
-        if(typeof renderPreview === "function") renderPreview(); 
+        renderPreview(); // Odśwież widok arkusza
     } else {
         document.body.classList.remove('view-mode');
-        // Wywołaj Twoją oryginalną funkcję switchTab, by przełączyć zawartość aside
-        if(typeof switchTab === "function") switchTab(mode);
+        // Jeśli mode to 'edit', 'bank' lub 'forum', użyj standardowej funkcji switchTab
+        const targetTab = (mode === 'edit') ? 'edit' : mode;
+        switchTab(targetTab);
     }
 }
     </script>
