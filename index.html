@@ -245,17 +245,17 @@
                     <input type="text" id="titleInput" oninput="renderPreview()" placeholder="np. Sprawdzian z Wielomianów" class="w-full p-4 rounded-2xl outline-none font-bold text-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm focus:border-indigo-500 transition-all">
                 </div>
 <div id="view-paste" class="space-y-4">
-    <div class="version-hint no-print">
-        <i class="fas fa-info-circle"></i> Wpisz <b>{1-10}</b>, aby wylosować liczbę od 1 do 10.
+    <div class="flex justify-between items-center mb-2">
+        <label class="text-[10px] font-black uppercase opacity-30 tracking-widest">Treść zadań</label>
+        <span class="text-[9px] font-bold text-indigo-500 uppercase">Generator Gotowy</span>
     </div>
-    
-    <button onclick="generateRandomVersions()" class="w-full bg-amber-500 hover:bg-amber-600 text-white py-4 rounded-2xl font-black uppercase text-[11px] shadow-lg transition-all">
-        <i class="fas fa-dice mr-2"></i> Losuj nowe dane {min-max}
-    </button>
 
-    <textarea id="taskInput" class="w-full h-[400px] bg-slate-900 text-indigo-200 rounded-2xl p-6 text-xs font-mono border-none outline-none" placeholder="Wklej treść zadań tutaj... np. Zadanie 1. (0-1) Oblicz 2+2. Odpowiedź: 4"></textarea>
+    <textarea id="taskInput" 
+              class="w-full h-[450px] bg-slate-900 text-indigo-200 rounded-2xl p-6 text-xs font-mono border-none outline-none shadow-inner" 
+              placeholder="Zadanie 1. (0-1) Treść...&#10;Odpowiedź: wynik"></textarea>
     
-    <button onclick="parseTasks()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg">
+    <button onclick="parseTasks()" 
+            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg transition-all active:scale-95">
         Generuj Strukturę Arkusza
     </button>
 </div>
