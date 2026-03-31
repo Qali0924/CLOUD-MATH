@@ -442,36 +442,59 @@
             saveToLocalStorage();
         }
 
-        function renderPreview() {
-            const output = document.getElementById('tasks-output');
-            const title = document.getElementById('titleInput').value || "ARKUSZ PRACY";
-            document.getElementById('pdf-title-display').innerText = title;
-            document.getElementById('pdf-date').innerText = new Date().toLocaleDateString('pl-PL', { day: 'numeric', month: 'short', year: 'numeric' });
-            
-            let html = ""; let total = 0;
-            tasksData.forEach((t, i) => {
-                const h = taskHeights[t.id] || 6;
-                const ptsRaw = t.pts.match(/(\d+)(?!.*\d)/);
-                if(ptsRaw) total += parseInt(ptsRaw[0]);
-                html += `
-                    <div class="task-box">
-                        <div class="flex justify-between items-end mb-4">
-                            <div style="background:#000; color:#fff; padding:6px 18px; font-weight:900; border-radius:4px; font-size:11pt; text-transform:uppercase">ZADANIE ${i+1}</div>
-                            <div style="font-weight:900; border:3px solid #000; padding:3px 14px; font-style:italic; font-size:10pt">/ ${t.pts} PKT</div>
-                        </div>
-                        <div style="font-size:14pt; font-family:serif; line-height:1.7; margin-bottom:20px; color:#000">${t.body.replace(/\n/g, '<br>')}</div>
-                        <div class="math-grid" style="height:${h * 20}px"></div>
-                        <div class="no-print mt-3 flex gap-2">
-                            <button onclick="updateGrid('${t.id}', 2)" class="text-[9px] font-black bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-lg hover:bg-indigo-100">+ LINIE</button>
-                            <button onclick="updateGrid('${t.id}', -2)" class="text-[9px] font-black bg-white text-slate-400 border border-slate-100 px-3 py-1.5 rounded-lg">- LINIE</button>
-                            <button onclick="saveToBank('${t.id}')" class="ml-auto text-[9px] font-black bg-amber-50 text-amber-600 px-4 py-1.5 rounded-lg hover:bg-amber-500 hover:text-white transition-all"><i class="fas fa-star mr-1"></i> ZAPISZ W BANKU</button>
-                        </div>
-                    </div>`;
-            });
-            output.innerHTML = html || `<div class="py-40 text-center opacity-5 font-black text-6xl uppercase tracking-tighter brand-font">Arkusz Pusty</div>`;
-            document.getElementById('pdf-total').innerText = `SUMA: ${total} PKT`;
-            renderMathInElement(output, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false });
-        }
+function renderPreview() {
+    const output = document.getElementById('tasks-output');
+    const title = document.getElementById('titleInput').value || "ARKUSZ PRACY";
+    document.getElementById('pdf-title-display').innerText = title;
+    document.getElementById('pdf-date').innerText = new Date().toLocaleDateString('pl-PL', { day: 'numeric', month: 'short', year: 'numeric' });
+    
+    let html = ""; 
+    let ansHtml = `<div class="pdf-page" style="page-break-before: always;">
+                    <h2 class="text-3xl font-black uppercase tracking-tighter brand-font mb-10 border-b-4 border-black pb-4">Klucz Odpowiedzi</h2>`;
+    let total = 0;
+
+    tasksData.forEach((t, i) => {
+        const h = taskHeights[t.id] || 6;
+        const ptsRaw = t.pts.match(/(\d+)(?!.*\d)/);
+        if(ptsRaw) total += parseInt(ptsRaw[0]);
+
+        // --- KLUCZOWA ZMIANA: Rozdzielanie treści ---
+        const parts = t.body.split(/Odpowiedź:/i);
+        const taskBody = parts[0].trim();
+        const answerBody = parts[1] ? parts[1].trim() : "Brak odpowiedzi w bazie";
+
+        // Treść na kartę pracy
+        html += `
+            <div class="task-box">
+                <div class="flex justify-between items-end mb-4">
+                    <div style="background:#000; color:#fff; padding:6px 18px; font-weight:900; border-radius:4px; font-size:11pt; text-transform:uppercase">ZADANIE ${i+1}</div>
+                    <div style="font-weight:900; border:3px solid #000; padding:3px 14px; font-style:italic; font-size:10pt">/ ${t.pts} PKT</div>
+                </div>
+                <div style="font-size:14pt; font-family:serif; line-height:1.7; margin-bottom:20px; color:#000">${taskBody.replace(/\n/g, '<br>')}</div>
+                <div class="math-grid" style="height:${h * 20}px"></div>
+                <div class="no-print mt-3 flex gap-2">
+                    <button onclick="updateGrid('${t.id}', 2)" class="text-[9px] font-black bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-lg">+ LINIE</button>
+                    <button onclick="updateGrid('${t.id}', -2)" class="text-[9px] font-black bg-white text-slate-400 border border-slate-100 px-3 py-1.5 rounded-lg">- LINIE</button>
+                    <button onclick="saveToBank('${t.id}')" class="ml-auto text-[9px] font-black bg-amber-50 text-amber-600 px-4 py-1.5 rounded-lg hover:bg-amber-500 hover:text-white transition-all"><i class="fas fa-star mr-1"></i> ZAPISZ W BANKU</button>
+                </div>
+            </div>`;
+
+        // Treść do klucza
+        ansHtml += `
+            <div style="margin-bottom: 20px; padding: 15px; border-left: 5px solid #4f46e5; background: #f8fafc;">
+                <div style="font-weight: 900; font-size: 10pt; color: #4f46e5;">ZADANIE ${i+1}</div>
+                <div style="font-size: 12pt; color: #000;">${answerBody}</div>
+            </div>`;
+    });
+
+    ansHtml += `</div>`; // Zamknięcie strony klucza
+    
+    // Łączymy kartę pracy z kluczem
+    output.innerHTML = html ? (html + ansHtml) : `<div class="py-40 text-center opacity-5 font-black text-6xl uppercase tracking-tighter brand-font">Arkusz Pusty</div>`;
+    
+    document.getElementById('pdf-total').innerText = `SUMA: ${total} PKT`;
+    renderMathInElement(output, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false });
+}
 
         function renderAll() {
             const list = document.getElementById('sortable-list');
